@@ -10,7 +10,7 @@ def read_text(filename):
         sentences = []
         for line in f:
             line = line.strip()
-            words = split_by_punct(line)
+            words = ' '.join(split_by_punct(line)).strip()
             sentences.append(words)
         return ' '.join(sentences).strip()
 
