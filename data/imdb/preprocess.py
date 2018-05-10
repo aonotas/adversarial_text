@@ -28,6 +28,15 @@ def load_file(data_file, split_idx):
                 train.append(words)
     return train, dev
 
+
+def load_test_dataset(data_file):
+    test = []
+    with open(data_file) as f:
+        for filename in f:
+            words = read_text(filename.strip())
+            test.append(words)
+    return test
+
 def prepare_imdb():
     # this split is used at
     # https://github.com/tensorflow/models/tree/master/research/adversarial_text
