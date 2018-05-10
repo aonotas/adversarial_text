@@ -18,13 +18,14 @@ def read_text(filename):
 def load_file(data_file, split_idx):
     train = []
     dev = []
-    for filename in open(data_file):
-        idx = int(filename.split('/')[2].split('_')[0])
-        words = read_text(filename.strip())
-        if idx >= split_idx:
-            dev.append(words)
-        else:
-            train.append(words)
+    with open(data_file) as f:
+        for filename in f:
+            idx = int(filename.split('/')[-1].split('_')[0])
+            words = read_text(filename.strip())
+            if idx >= split_idx:
+                dev.append(words)
+            else:
+                train.append(words)
     return train, dev
 
 def prepare_imdb():
