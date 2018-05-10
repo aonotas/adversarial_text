@@ -8,4 +8,7 @@ $ wget http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz -O imdb.ta
 $ tar -xf imdb.tar.gz
 ```
 
+### Preprocess
+
+
 Please see http://ai.stanford.edu/~amaas/data/sentiment/ if you want to know the IMDB.
