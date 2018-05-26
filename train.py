@@ -225,7 +225,6 @@ def main():
         logging.info('epoch:' + str(epoch))
         # train
         model.cleargrads()
-        model.reset_statics()
         chainer.config.train = True
         iteration_list = range(0, len(train_x), batchsize)
 
