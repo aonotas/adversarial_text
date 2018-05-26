@@ -25,17 +25,11 @@ class uniLSTM_VAT(chainer.Chain):
                  use_adv=0, xi_var=5.0, n_class=2,
                  args=None):
         self.args = args
-        initializer = None
-        if args.init_scale > 0.0:
-            initializer = chainer.initializers.LeCunNormal(scale=args.init_scale)
         super(uniLSTM_VAT, self).__init__(
             word_embed = L.EmbedID(n_vocab, emb_dim, ignore_label=-1),
             hidden_layer=L.Linear(hidden_dim, hidden_classifier),
-            output_layer=L.Linear(hidden_classifier, n_class, initialW=initializer)
+            output_layer=L.Linear(hidden_classifier, n_class)
         )
-        # if args.norm_freq or args.norm_mean_var:
-        #     word_embed = EmbedIDNormalized(
-        #         n_vocab, emb_dim, ignore_label=-1, norm_to_one=args.norm_freq)
         uni_lstm = L.NStepLSTM(n_layers=n_layers, in_size=emb_dim,
                                out_size=hidden_dim, dropout=use_dropout)
         # Forget gate bias => 1.0
