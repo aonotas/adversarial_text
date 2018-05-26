@@ -129,7 +129,7 @@ class AdaptiveSoftmaxOutput(function.Function):
     def backward_log_softmax(self, x, y, gy):
         if cuda.cudnn_enabled:
             cudnn = cuda.cudnn
-            #libcudnn = cudnn.cudnn
+            libcudnn = cuda.cuda.cudnn
             _algorithm = libcudnn.CUDNN_SOFTMAX_LOG
             _mode = libcudnn.CUDNN_SOFTMAX_MODE_CHANNEL
 
