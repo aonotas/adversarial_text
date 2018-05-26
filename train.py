@@ -21,7 +21,6 @@ chainer.config.use_cudnn = 'always'
 to_cpu = chainer.cuda.to_cpu
 to_gpu = chainer.cuda.to_gpu
 
-import process_dataset
 from chainer import serializers
 import net
 import lm_nets
