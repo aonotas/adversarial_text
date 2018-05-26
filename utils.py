@@ -1,5 +1,5 @@
 
-
+import numpy as np
 
 def convert_to_vocab_id(vocab, pos, neg, convert_vocab=True, ignore_unk=False, ign_eos=False):
     # binary class
