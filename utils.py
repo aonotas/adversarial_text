@@ -50,7 +50,7 @@ def load_file_preprocess(filename, lower=True):
         if lower:
             return w.lower()
         return w
-    with open(filename, 'w') as f:
+    with open(filename, 'r') as f:
         for l in f:
             words = [conv(w) for w in l.strip().split(' ')]
             dataset.append(words)
