@@ -45,23 +45,6 @@ def embed_seq_batch(embed, seq_batch, dropout=0., norm_vecs_one=False):
     return e_seq_batch
 
 
-class BlackOutOutputLayer(BlackOut):
-
-    def output_and_loss(self, h, t):
-        if chainer.config.train:
-            return super(BlackOutOutputLayer, self).__call__(h, t)
-        else:
-            logit = self(h)
-            return F.softmax_cross_entropy(
-                logit, t, normalize=False, reduce='mean')
-
-    def __call__(self, h):
-        return F.linear(h, self.W)
-
-    def output(self, h, t=None):
-        return self(h)
-
-
 class NormalOutputLayer(L.Linear):
 
     def __init__(self, *args, **kwargs):
@@ -153,7 +136,7 @@ class RNNForLM(chainer.Chain):
     # TODO: nstep LSTM
 
     def __init__(self, n_vocab, n_units, n_layers=2, dropout=0.5,
-                 share_embedding=False, blackout_counts=None,
+                 share_embedding=False,
                  adaptive_softmax=False, vocab_freq=None, norm_to_one=False,
                  n_units_word=256):
         super(RNNForLM, self).__init__()
@@ -165,14 +148,9 @@ class RNNForLM(chainer.Chain):
             else:
                 self.embed = L.EmbedID(n_vocab, n_units_word)
             self.rnn = L.NStepLSTM(n_layers, n_units_word, n_units, dropout)
-            assert(not (share_embedding and blackout_counts is not None))
+            assert(not (share_embedding))
             if share_embedding:
                 self.output = SharedOutputLayer(self.embed.W)
-            elif blackout_counts is not None:
-                sample_size = max(500, (n_vocab // 200))
-                self.output = BlackOutOutputLayer(
-                    n_units, blackout_counts, sample_size)
-                print('Blackout sample size is {}'.format(sample_size))
             elif adaptive_softmax:
                 self.output = AdaptiveSoftmaxOutputLayer(
                     n_units, n_vocab,
