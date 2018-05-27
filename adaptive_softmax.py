@@ -12,7 +12,7 @@ import argparse
 import numpy as np
 
 import chainer
-from chainer import cuda
+from chainer.backends import cuda
 import chainer.functions as F
 import chainer.links as L
 from chainer import training
@@ -31,8 +31,6 @@ from chainer import function
 from chainer.functions.activation import log_softmax
 from chainer.utils import type_check
 from chainer import variable
-
-import cupy.cuda.cudnn as libcudnn
 
 
 def _broadcast_to(array, shape):
