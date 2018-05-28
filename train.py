@@ -44,7 +44,7 @@ def main():
     parser.add_argument('--pretrained_model', dest='pretrained_model',
                         type=str, default='', help='pretrained_model')
     parser.add_argument('--use_unlabled_to_vocab', dest='use_unlabled_to_vocab',
-                        type=int, default=0, help='use_unlabled_to_vocab')
+                        type=int, default=1, help='use_unlabled_to_vocab')
     parser.add_argument('--use_rational', dest='use_rational',
                         type=int, default=0, help='use_rational')
     parser.add_argument('--save_name', dest='save_name', type=str,
@@ -104,6 +104,9 @@ def main():
                         default=1234, help='random_seed')
     parser.add_argument('--n_class', dest='n_class', type=int,
                         default=2, help='n_class')
+    parser.add_argument('--word_only', dest='word_only', type=int,
+                        default=0, help='word_only')
+
 
     args = parser.parse_args()
     batchsize = args.batchsize
