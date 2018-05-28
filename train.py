@@ -87,8 +87,6 @@ def main():
                         type=int, default=1, help='add_labeld_to_unlabel')
     parser.add_argument('--norm_sentence_level', dest='norm_sentence_level',
                         type=int, default=0, help='norm_sentence_level')
-    parser.add_argument('--ignore_fast_sent_norm', dest='ignore_fast_sent_norm',
-                        type=int, default=0, help='ignore_fast_sent_norm')
     parser.add_argument('--dataset', default='imdb',
                         choices=['imdb', 'elec', 'rotten', 'dbpedia', 'rcv1'])
     parser.add_argument('--eval', dest='eval', type=int, default=0, help='eval')
@@ -117,7 +115,7 @@ def main():
     np.random.seed(args.random_seed)
     os.environ["CHAINER_SEED"] = str(args.random_seed)
     os.makedirs("models", exist_ok=True)
-    
+
     if args.debug_mode:
         chainer.set_debug(True)
 

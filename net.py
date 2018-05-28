@@ -172,12 +172,10 @@ class uniLSTM_VAT(chainer.Chain):
                 else:
                     # Adv
                     d = self.xp.zeros(xs.shape, dtype='f')
+
                 if self.args.ignore_fast_sent_norm:
-                    # Normalize at word-level
-                    d = get_normalized_vector(d, self.xp)
-                else:
-                    # Normalize at sentence-level
-                    d = norm_vec_sentence_level(d)
+                # Normalize at word-level
+                d = get_normalized_vector(d, self.xp)
 
                 d_var = Variable(d.astype(self.xp.float32))
                 self.d_var = d_var
