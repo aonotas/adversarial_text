@@ -173,7 +173,6 @@ class uniLSTM_VAT(chainer.Chain):
                     # Adv
                     d = self.xp.zeros(xs.shape, dtype='f')
 
-                if self.args.ignore_fast_sent_norm:
                 # Normalize at word-level
                 d = get_normalized_vector(d, self.xp)
 
