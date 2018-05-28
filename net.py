@@ -18,6 +18,21 @@ def kl_loss(xp, p_logit, q_logit):
     return F.sum(_kl) / xp.prod(xp.array(_kl.shape))
 
 
+def get_normalized_vector(d, xp=None, shape=None):
+    if shape is None:
+        shape = tuple(range(1, len(d.shape)))
+    d_norm = d
+    if xp is not None:
+        d_norm = d / (1e-12 + xp.max(xp.abs(d), shape, keepdims=True))
+        d_norm = d_norm / xp.sqrt(1e-6 + xp.sum(d_norm ** 2, shape, keepdims=True))
+    else:
+        d_term = 1e-12 + F.max(F.absolute(d), shape, keepdims=True)
+        d_norm = d / F.broadcast_to(d_term, d.shape)
+        d_term = F.sqrt(1e-6 + F.sum(d ** 2, shape, keepdims=True))
+        d_norm = d / F.broadcast_to(d_term, d.shape)
+    return d_norm
+
+
 class uniLSTM_VAT(chainer.Chain):
 
     def __init__(self, n_vocab=None, emb_dim=256, hidden_dim=1024,
