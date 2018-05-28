@@ -116,7 +116,8 @@ def main():
     random.seed(args.random_seed)
     np.random.seed(args.random_seed)
     os.environ["CHAINER_SEED"] = str(args.random_seed)
-
+    os.makedirs("models", exist_ok=True)
+    
     if args.debug_mode:
         chainer.set_debug(True)
 
