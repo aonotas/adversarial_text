@@ -46,7 +46,8 @@ def prepare_imdb():
     def fwrite_data(filename, sentences):
         with open(filename, 'w') as f:
             for words in sentences:
-                line = ' '.join(words)
+                # line = ' '.join(words)
+                line = words
                 f.write(line.strip() + '\n')
             f.close()
 
