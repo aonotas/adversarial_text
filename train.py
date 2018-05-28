@@ -156,7 +156,6 @@ def main():
         # load pretrained LM model
         pretrain_model = lm_nets.RNNForLM(n_vocab, 1024, args.n_layers, 0.50,
                                           share_embedding=False,
-                                          blackout_counts=None,
                                           adaptive_softmax=args.adaptive_softmax)
         serializers.load_npz(args.pretrained_model, pretrain_model)
         pretrain_model.lstm = pretrain_model.rnn
