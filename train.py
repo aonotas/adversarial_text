@@ -283,7 +283,7 @@ def main():
                         attn_d_grad = chainer.Variable(d)
                         attn_d_grad_original = d
                         d_data = d.data if isinstance(d, chainer.Variable) else d
-                    output = model(x, x_length, d=d, d_hidden=d_hidden)
+                    output = model(x, x_length, d=d)
                     # Adversarial loss
                     loss_adv = F.softmax_cross_entropy(output, y, normalize=True)
                     loss += loss_adv * args.nl_factor
