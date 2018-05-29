@@ -189,8 +189,9 @@ class uniLSTM_VAT(chainer.Chain):
                 else:
                     # Normalize at word-level
                     d = get_normalized_vector(d_original, self.xp)
-                    xs_noise_final = self.xi_var * d
-                    xs = xs + xs_noise_final
+
+                xs_noise_final = self.xi_var * d
+                xs = xs + xs_noise_final
 
         split_size = np.cumsum(lengths)[:-1]
         xs_f = F.split_axis(xs, split_size, axis=0)

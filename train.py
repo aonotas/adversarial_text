@@ -36,9 +36,9 @@ def main():
     parser.add_argument('--gpu', '-g', default=-1, type=int,
                         help='GPU ID (negative value indicates CPU)')
     parser.add_argument('--batchsize', dest='batchsize', type=int,
-                        default=64, help='learning minibatch size')
+                        default=32, help='learning minibatch size')
     parser.add_argument('--batchsize_semi', dest='batchsize_semi', type=int,
-                        default=256, help='learning minibatch size')
+                        default=64, help='learning minibatch size')
     parser.add_argument('--n_epoch', dest='n_epoch', type=int, default=30,
                         help='n_epoch')
     parser.add_argument('--pretrained_model', dest='pretrained_model',
@@ -48,7 +48,7 @@ def main():
     parser.add_argument('--use_rational', dest='use_rational',
                         type=int, default=0, help='use_rational')
     parser.add_argument('--save_name', dest='save_name', type=str,
-                        default='sentiment_model_', help='save_name')
+                        default='sentiment_model', help='save_name')
     parser.add_argument('--n_layers', dest='n_layers', type=int,
                         default=1, help='n_layers')
     parser.add_argument('--alpha', dest='alpha',
@@ -86,7 +86,7 @@ def main():
     parser.add_argument('--add_labeld_to_unlabel', dest='add_labeld_to_unlabel',
                         type=int, default=1, help='add_labeld_to_unlabel')
     parser.add_argument('--norm_sentence_level', dest='norm_sentence_level',
-                        type=int, default=0, help='norm_sentence_level')
+                        type=int, default=1, help='norm_sentence_level')
     parser.add_argument('--dataset', default='imdb',
                         choices=['imdb', 'elec', 'rotten', 'dbpedia', 'rcv1'])
     parser.add_argument('--eval', dest='eval', type=int, default=0, help='eval')
