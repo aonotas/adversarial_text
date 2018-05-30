@@ -21,7 +21,7 @@ from chainer import serializers
 
 import utils
 import utils_pretrain
-import net
+import lm_nets
 
 
 def main():
@@ -146,7 +146,7 @@ def main():
     test_iter = utils_pretrain.ParallelSequentialIterator(test, 1, repeat=False)
 
     # Prepare an RNNLM model
-    model = net.RNNForLM(n_vocab, args.unit, args.layer, args.dropout,
+    model = lm_nets.RNNForLM(n_vocab, args.unit, args.layer, args.dropout,
                           share_embedding=args.share_embedding,
                           adaptive_softmax=args.adaptive_softmax,
                           n_units_word=args.n_units_word)
