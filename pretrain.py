@@ -20,6 +20,7 @@ import chainer.links as L
 from chainer import serializers
 
 import utils
+import utils_pretrain
 import net
 
 
@@ -90,14 +91,14 @@ def main():
                 xt_batch_seq.append(batch)
                 count += 1
                 if len(xt_batch_seq) >= one_pack:
-                    x_seq_batch, t_seq_batch = utils.convert_xt_batch_seq(
+                    x_seq_batch, t_seq_batch = utils_pretrain.convert_xt_batch_seq(
                         xt_batch_seq, args.gpu)
                     loss = model.forward_seq_batch(
                         x_seq_batch, t_seq_batch, normalize=1.)
                     sum_perp += loss.data
                     xt_batch_seq = []
             if xt_batch_seq:
-                x_seq_batch, t_seq_batch = utils.convert_xt_batch_seq(
+                x_seq_batch, t_seq_batch = utils_pretrain.convert_xt_batch_seq(
                     xt_batch_seq, args.gpu)
                 loss = model.forward_seq_batch(
                     x_seq_batch, t_seq_batch, normalize=1.)
@@ -114,7 +115,6 @@ def main():
     if args.dataset == 'imdb':
         import sys
         sys.path.append('../')
-        import utils
         lower = False
         min_count = 1
         ignore_unk = 1
@@ -141,9 +141,9 @@ def main():
     print('#vocab =', n_vocab)
 
     # Create the dataset iterators
-    train_iter = utils.ParallelSequentialIterator(train, args.batchsize)
-    val_iter = utils.ParallelSequentialIterator(val, 1, repeat=False)
-    test_iter = utils.ParallelSequentialIterator(test, 1, repeat=False)
+    train_iter = utils_pretrain.ParallelSequentialIterator(train, args.batchsize)
+    val_iter = utils_pretrain.ParallelSequentialIterator(val, 1, repeat=False)
+    test_iter = utils_pretrain.ParallelSequentialIterator(test, 1, repeat=False)
 
     # Prepare an RNNLM model
     model = net.RNNForLM(n_vocab, args.unit, args.layer, args.dropout,
@@ -184,7 +184,7 @@ def main():
             xt_batch_seq.append(batch)
             is_new_epoch += train_iter.is_new_epoch
             count += 1
-        x_seq_batch, t_seq_batch = utils.convert_xt_batch_seq(
+        x_seq_batch, t_seq_batch = utils_pretrain.convert_xt_batch_seq(
             xt_batch_seq, args.gpu)
         loss = model.forward_seq_batch(
             x_seq_batch, t_seq_batch, normalize=args.batchsize)
