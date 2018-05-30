@@ -124,9 +124,11 @@ def main():
     n_char_vocab = 1
     n_class = 2
     if args.dataset == 'imdb':
-        vocab_obj, dataset, lm_dataset, train_vocab_size = utils.load_dataset_imdb(include_pretrain=use_unlabled_to_vocab, lower=lower,
-                              min_count=args.min_count, ignore_unk=args.ignore_unk, use_semi_data=args.use_semi_data,
-                              add_labeld_to_unlabel=args.add_labeld_to_unlabel)
+        vocab_obj, dataset, lm_data, t_vocab = utils.load_dataset_imdb(
+            include_pretrain=use_unlabled_to_vocab, lower=lower,
+            min_count=args.min_count, ignore_unk=args.ignore_unk,
+            use_semi_data=args.use_semi_data,
+            add_labeld_to_unlabel=args.add_labeld_to_unlabel)
         (train_x, train_x_len, train_y,
          dev_x, dev_x_len, dev_y,
          test_x, test_x_len, test_y) = dataset
@@ -134,9 +136,9 @@ def main():
         n_class = 2
 
     if args.use_semi_data:
-        semi_train_x, semi_train_x_len = lm_dataset
+        semi_train_x, semi_train_x_len = lm_data
 
-    print('train_vocab_size:', train_vocab_size)
+    print('train_vocab_size:', t_vocab)
 
     vocab_inv = dict([(widx, w) for w, widx in vocab.items()])
     print('vocab_inv:', len(vocab_inv))
