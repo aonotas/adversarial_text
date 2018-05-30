@@ -4,6 +4,9 @@
 This code is ported from the following implementation written in Torch.
 https://github.com/tomsercu/lstm
 
+Original code with Chainer:
+https://github.com/soskek/efficient_softmax
+
 """
 from __future__ import division
 from __future__ import print_function
@@ -451,7 +454,7 @@ def adaptive_softmax_cross_entropy(
             cutoff, normalize=normalize,
             ignore_label=ignore_label,
             reduce=reduce)(
-                x, t, Ws, Rs)
+                x, t, *Ws, *Rs)
 
 
 def adaptive_softmax_output(
@@ -463,7 +466,7 @@ def adaptive_softmax_output(
         raise NotImplementedError()
     else:
         return AdaptiveSoftmaxOutput(
-            cutoff, output_all=output_all)(x, t, Ws, Rs)
+            cutoff, output_all=output_all)(x, t, *Ws, *Rs)
 
 
 class AdaptiveSoftmaxOutputLayer(chainer.Chain):
