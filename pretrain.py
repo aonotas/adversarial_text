@@ -65,7 +65,7 @@ def main():
     parser.add_argument('--decay-every', action='store_true')
     parser.add_argument('--random-seed', type=int, default=1234, help='seed')
     parser.add_argument('--save-all', type=int, default=0, help='save_all')
-
+    parser.add_argument('--norm-vecs', action='store_true')
 
     args = parser.parse_args()
     print(json.dumps(args.__dict__, indent=2))
@@ -150,6 +150,36 @@ def main():
                           share_embedding=args.share_embedding,
                           adaptive_softmax=args.adaptive_softmax,
                           n_units_word=args.n_units_word)
+
+    if args.norm_vecs:
+        print('#norm_vecs')
+        vocab_freq = np.array([float(vocab_count.get(w, 1)) for w, idx in
+                               sorted(vocab.items(), key=lambda x: x[1])], dtype=np.float32)
+        vocab_freq = vocab_freq / np.sum(vocab_freq)
+        vocab_freq = vocab_freq.astype(np.float32)
+        vocab_freq = vocab_freq[..., None]
+        freq = vocab_freq
+        print('freq:')
+        print(freq)
+        print('#norm_vecs...')
+        word_embs = model.embed.W.data
+        print('norm(word_embs):')
+        print(np.linalg.norm(word_embs, axis=1).reshape(-1, 1))
+        mean = np.sum(freq * word_embs, axis=0)
+        print('mean:{}'.format(mean.shape))
+        var = np.sum(freq * np.power(word_embs - mean, 2.), axis=0)
+        stddev = np.sqrt(1e-6 + var)
+        print('var:{}'.format(var.shape))
+        print('stddev:{}'.format(stddev.shape))
+
+        word_embs_norm = (word_embs - mean) / stddev
+        word_embs_norm = word_embs_norm.astype(np.float32)
+        print('word_embs_norm:{}'.format(word_embs_norm))
+        print(word_embs_norm)
+        print('norm(word_embs_norm):')
+        print(np.linalg.norm(word_embs_norm, axis=1).reshape(-1, 1))
+        model.embed.W.data[:] = word_embs_norm
+        print('#done')
 
     if args.gpu >= 0:
         model.to_gpu()
