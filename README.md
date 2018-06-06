@@ -5,7 +5,8 @@ This code reproduce the [[Miyato et al., 2017]](https://arxiv.org/abs/1605.07725
 
 
 ## Setup envirment
-Please install Chainer and Cupy.
+Please install [Chainer](https://github.com/chainer/chainer) and [Cupy](https://github.com/cupy/cupy).
+
 You can set up the environment easily with this [*Setup.md*](https://github.com/aonotas/adversarial_text/blob/master/Setup.md).
 
 ## Download Pretrain Model
