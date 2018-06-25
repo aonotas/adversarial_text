@@ -265,7 +265,6 @@ def main():
             y = to_gpu(train_y[sample_idx])
 
             d = None
-            d_hidden = None
 
             # Classification loss
             output = model(x, x_length)
@@ -282,8 +281,6 @@ def main():
 
                     if args.use_adv:
                         d = model.d_var.grad
-                        attn_d_grad = chainer.Variable(d)
-                        attn_d_grad_original = d
                         d_data = d.data if isinstance(d, chainer.Variable) else d
                     output = model(x, x_length, d=d)
                     # Adversarial loss
@@ -347,7 +344,6 @@ def main():
             result_str += '_test_acc_' + str(test_accuracy)
             model_filename = './models/' + '_'.join([args.save_name,
                                                      str(epoch), result_str])
-            # if len(sentences_train_list) == 1:
             serializers.save_hdf5(model_filename + '.model', model)
 
             prev_dev_accuracy = dev_accuracy
