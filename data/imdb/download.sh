@@ -1,4 +1,5 @@
 #!/bin/bash
+export LC_ALL=C
 
 # Download IMDB dataset
 echo "Downloading..."
